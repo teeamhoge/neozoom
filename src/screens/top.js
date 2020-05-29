@@ -8,12 +8,13 @@ import { makeStyles } from '@material-ui/core/styles';
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    display: 'flex',
+    //display: 'flex',
+		textAlign: 'center',
     flexWrap: 'wrap',
     '& > *': {
       margin: theme.spacing(1),
-      width: theme.spacing(24),
-      height: theme.spacing(24),
+      width: theme.spacing(40),
+      height: theme.spacing(40),
     },
   },
 }));
@@ -40,7 +41,7 @@ const Top = () => {
 
 	return (
 		<div className = {classes.root}>
-			<Paper evaluation = {0} >
+			<Paper evaluation = {3} >
 				<Button variant = "contained" color = "primary" onClick = {handleClick}>
 					発行する
 				</Button>
