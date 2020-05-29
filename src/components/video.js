@@ -1,6 +1,6 @@
 import React from "react";
 import Transcript from "./transcript"
-
+import Skyway from './skyway.js'
 
 const Video = (props) => {
 
@@ -16,10 +16,11 @@ const Video = (props) => {
 	 * }
 	*/
 
-	//TODO: connect skyway with data.room_id
+	//TODO: connect to websocket server
 
 	return (
 		<div>
+			<Skyway room_id = {data.room_id} nickname = {data.nickname} />
 			<Transcript />
 		</div>
 	)
