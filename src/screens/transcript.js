@@ -6,6 +6,7 @@ const Transcript = () => {
 	return (
 		<div>
 			here is transcript
+			試しに変更した部分
 		</div>
 	)
 }
