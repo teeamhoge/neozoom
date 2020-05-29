@@ -31,6 +31,13 @@ const Top = () => {
 		setUrl("http://localhost:3000/video")
 	}
 
+
+	const copyURL = () => {
+		if(navigator.clipboard){
+			navigator.clipboard.writeText(url);
+		}
+	}
+
 	return (
 		<div className = {classes.root}>
 			<Paper evaluation = {0} >
@@ -45,15 +52,17 @@ const Top = () => {
 				}
 
 				{ url != "" &&
-					<Typography variant = "h6" gutterBottom>
-						発行されました
-					</Typography>
+					<div>
+						<Typography variant = "h6" gutterBottom>
+							発行されました
+						</Typography>
+						<Typography variant = "h6" gutterBottom>
+							URL:{url}
+						</Typography>
+						<Button onClick = {copyURL}>Copy</Button>
+					</div>
 				}
-
 				
-				<Typography variant = "h6" gutterBottom>
-					URL:{url}
-				</Typography>
 			</Paper>
 		</div>
 	)
