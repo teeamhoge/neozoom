@@ -1,7 +1,13 @@
 import React from "react";
+import Transcript from "./transcript"
+
 
 const Video = () => {
-  return <div>video</div>;
+	return (
+		<div>
+			<Transcript />
+		</div>
+	)
 };
 
 export default Video;
