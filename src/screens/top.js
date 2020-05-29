@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useState } from "react";
+
 import Paper from '@material-ui/core/Paper';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
@@ -20,16 +21,38 @@ const useStyles = makeStyles((theme) => ({
 const Top = () => {
 
 	const classes = useStyles();
+	const [ url, setUrl ] = useState("")
+
+	const handleClick = () => {
+		
+		//TODO: 遷移用のURLを取得
+		//
+
+		setUrl("http://localhost:3000/video")
+	}
 
 	return (
 		<div className = {classes.root}>
 			<Paper evaluation = {0} >
-				<Button variant = "contained" color = "primary">
+				<Button variant = "contained" color = "primary" onClick = {handleClick}>
 					発行する
 				</Button>
-				<Typography variant = "h6" gutterBottom>発行ボタンを押してください</Typography>
+
+				{ url == "" &&
+					<Typography variant = "h6" gutterBottom>
+						発行ボタンを押してください
+					</Typography>
+				}
+
+				{ url != "" &&
+					<Typography variant = "h6" gutterBottom>
+						発行されました
+					</Typography>
+				}
+
+				
 				<Typography variant = "h6" gutterBottom>
-					URL:
+					URL:{url}
 				</Typography>
 			</Paper>
 		</div>
