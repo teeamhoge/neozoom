@@ -19,13 +19,16 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 
-const Profile = () => {
+const Profile = (props) => {
 
 	const [ nickname, setNickname ] = useState("")
 	const [ tame, setTame ] = useState(false)
 	const [ sake, setSake ] = useState(false)
-	
+
 	const classes = useStyles()
+	
+	const urlParams = new URLSearchParams(window.location.search)
+
 
 	const handleChangeTame = () => {
 		setTame(!tame)
@@ -41,12 +44,16 @@ const Profile = () => {
 
 	const handleClick = () => {
 		const data = {
+			room_id: urlParams.get("id"),
 			nickname: nickname,
 			tame: tame,
 			sake: sake,
 		}
 		
-		//TODO: Join room and pass data to room
+		props.history.push({
+			pathname: '/video',
+			state: data,
+		})
 	}
 	
 		return (
