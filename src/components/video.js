@@ -16,10 +16,12 @@ const Video = (props) => {
 	 * }
 	*/
 
+	//TODO: connect to websocket server
+
 	return (
 		<div>
 			<Skyway room_id = {data.room_id} nickname = {data.nickname} />
-			<Transcript sake = {data.sake} tame = {data.tame} />
+			<Transcript />
 		</div>
 	)
 };
