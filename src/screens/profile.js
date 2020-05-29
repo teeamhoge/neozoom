@@ -40,7 +40,13 @@ const Profile = () => {
 	}
 
 	const handleClick = () => {
-		console.log(nickname, tame, sake)
+		const data = {
+			nickname: nickname,
+			tame: tame,
+			sake: sake,
+		}
+		
+		//TODO: Join room and pass data to room
 	}
 	
 		return (
