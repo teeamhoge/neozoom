@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { BrowserRouter, Switch, Route } from "react-router-dom";
-import Top from "./screens/top";
-import Video from "./screens/video";
-import Profile from "./screens/profile";
-import Header from "./screens/header"
+import Top from "./components/top";
+import Video from "./components/video";
+import Profile from "./components/profile";
+import Header from "./components/header"
 
 function App() {
   return (
