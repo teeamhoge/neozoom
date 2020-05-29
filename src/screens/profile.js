@@ -27,7 +27,23 @@ const Profile = () => {
 	
 	const classes = useStyles()
 
-	return (
+	const handleChangeTame = () => {
+		setTame(!tame)
+	}
+
+	const handleChangeSake = () => {
+		setSake(!sake)
+	}
+
+	const handleChangeNickname = (e) => {
+		setNickname(e.target.value)
+	}
+
+	const handleClick = () => {
+		console.log(nickname, tame, sake)
+	}
+	
+		return (
 		<div className = {classes.root}>
 			<Paper evaluation = {3}>
 				<div>
@@ -35,20 +51,21 @@ const Profile = () => {
 						id="nickname"
 						label="表示名"
 						variant="outlined"
+						onChange = {handleChangeNickname}
 					/>
 				</div>
 
 				<div>
 
-					<Checkbox inputProps={{ 'aria-label': 'uncontrolled-checkbox' }} />
+					<Checkbox inputProps={{ 'aria-label': 'uncontrolled-checkbox' }} onChange = {handleChangeTame} checked = {tame}/>
 					<Typography variant = "body2" >タメ口OK</Typography>
 
-					<Checkbox inputProps={{ 'aria-label': 'uncontrolled-checkbox' }} />
+					<Checkbox inputProps={{ 'aria-label': 'uncontrolled-checkbox' }} onChange = {handleChangeSake} checked = {sake}/>
 					<Typography variant = "body2" >酒煽りOK</Typography>
 
 				</div>
 
-				<Button variant="contained" color="primary">
+				<Button variant="contained" color="primary" onClick = {handleClick}>
 					入室する
 				</Button>
 			</Paper>
