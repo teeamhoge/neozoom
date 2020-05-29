@@ -5,7 +5,7 @@ import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 
 import { makeStyles } from '@material-ui/core/styles';
-
+import { v4 as uuidv4 } from 'uuid';
 const useStyles = makeStyles((theme) => ({
   root: {
     //display: 'flex',
@@ -26,10 +26,10 @@ const Top = () => {
 
 	const handleClick = () => {
 		
-		//TODO: 遷移用のURLを取得
-		//
+		const unique_id = uuidv4();
+		const room_url = `${window.location.protocol}//${window.location.host}/profile?id=${unique_id}`
+		setUrl(room_url)
 
-		setUrl("http://localhost:3000/video")
 	}
 
 
