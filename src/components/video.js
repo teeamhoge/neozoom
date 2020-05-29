@@ -1,6 +1,6 @@
 import React from "react";
 import Transcript from "./transcript"
-
+import Skyway from './skyway.js'
 
 const Video = (props) => {
 
@@ -16,11 +16,10 @@ const Video = (props) => {
 	 * }
 	*/
 
-	//TODO: connect skyway with data.room_id
-
 	return (
 		<div>
-			<Transcript />
+			<Skyway room_id = {data.room_id} nickname = {data.nickname} />
+			<Transcript sake = {data.sake} tame = {data.tame} />
 		</div>
 	)
 };
