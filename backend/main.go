@@ -8,9 +8,17 @@ import (
 	"github.com/gorilla/websocket"
 )
 
+type userData struct {
+	Conn     *websocket.Conn
+	RoomID   string `json:room_id`
+	Nickname string `json:"nickname"`
+	Tame     bool   `json:"tame"`
+	Sake     bool   `json:"sake"`
+}
+
 var (
 	upgrader websocket.Upgrader
-	rooms    map[string][]*websocket.Conn
+	rooms    map[string][]userData
 )
 
 func wsHandler(w http.ResponseWriter, r *http.Request) {
@@ -20,6 +28,21 @@ func wsHandler(w http.ResponseWriter, r *http.Request) {
 	}
 
 	defer conn.Close()
+
+	for {
+		data := userData{}
+		err := conn.ReadJSON(&data)
+		if err != nil {
+
+			log.Print("read message failed")
+			break
+		}
+
+		//register user to room
+		data.Conn = conn
+		rooms[data.RoomID] = append(rooms[data.RoomID], data)
+
+	}
 
 }
 
