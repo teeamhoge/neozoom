@@ -29,14 +29,8 @@ recognition.lang = 'ja-JP';					// 日本語対応
 recognition.interimResults = true;  // 発言の途中でも認識結果を得ることができる
 recognition.continuous = true;			// 認識する時間を半永久的に
 
-	// recognition.start();								// 認識スタート
-const Transcript = (props) => {
-	const [ alertMessage, setAlertMessage ] = useState('')
-	console.log(props)
-	return <App alertMessage={ alertMessage} setAlertMessage={setAlertMessage} users = {props.users}/>
-}
 
-function App(props) {
+function Transcript(props) {
 	
 	const [talk, setTalk] = useState('')
 	const [result, setResult] = useState('')
@@ -46,7 +40,6 @@ function App(props) {
 	}, [])
 
 	const [messages, setMessages, users] = useState([])
-	console.log(props.users)
 
 	const classes = useStyles();
 
@@ -58,7 +51,6 @@ function App(props) {
 
 	recognition.onresult = (event) => {
 		let interimTranscript = '';
-		setAlertMessage('');
 		for (let i = event.resultIndex; i < event.results.length; i++) {
 			let transcript = event.results[i][0].transcript;
 			if (event.results[i].isFinal) {
@@ -75,9 +67,7 @@ function App(props) {
 		//Check Tame
 		for (let i = 0; i < tamepattern.length; i++) {
 			if (interimTranscript.indexOf(tamepattern[i]) > -1) {
-				console.log('desu desu keisatsu')
 				for(const user of props.users) {
-					console.log(user)
 					if(!user.tame){
 						setMessages([...messages, `${user.nickname}さんがタメ語で話して欲しいと思っているかも知れません`])
 					}
@@ -100,7 +90,6 @@ function App(props) {
 
 	return (
 		<div className= {classes.app}>
-			<div id="alert-message"><p style={{ color: 'red' }}>{alertMessage}</p></div>
 			<div id="result-div">{result} <span style={{ color: '#ddd' }}>{talk}</span></div>
 			<div className = {classes.messages}>
 				{messages.map(val => {
