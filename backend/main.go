@@ -44,6 +44,7 @@ func wsHandler(w http.ResponseWriter, r *http.Request) {
 		data.Conn = conn
 		data.IsConn = true
 
+		userChan <- data
 	}
 
 }
@@ -52,8 +53,10 @@ func joinUser() {
 	for {
 		newUser := <-userChan
 
+		data := rooms[newUser.RoomID]
+
 		//broadcast new user data to users exists in room
-		for _, usr := range rooms[newUser.RoomID] {
+		for _, usr := range data {
 
 			if !usr.IsConn {
 				continue
@@ -70,6 +73,14 @@ func joinUser() {
 
 		//add new user to room, send exists user data to new user
 
+		err := newUser.Conn.WriteJSON(data)
+		if err != nil {
+			log.Print("error occured while sending users data in room to new user")
+			continue
+		}
+
+		rooms[newUser.RoomID] = append(rooms[newUser.RoomID], newUser)
+
 	}
 }
 
@@ -82,7 +93,7 @@ func main() {
 	}
 
 	http.HandleFunc("/ws/neozoom", wsHandler)
-	fmt.Println("neozoom websocket server starting...")
+	fmt.Println("neozoom websocket server starting on port 8080...")
 	err := http.ListenAndServe(":8080", nil)
 	if err != nil {
 		log.Fatal("error starting websocket server : ", err)
