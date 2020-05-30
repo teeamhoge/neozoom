@@ -102,9 +102,14 @@ function App(props) {
 		<div className= {classes.app}>
 			<div id="alert-message"><p style={{ color: 'red' }}>{alertMessage}</p></div>
 			<div id="result-div">{result} <span style={{ color: '#ddd' }}>{talk}</span></div>
-			{messages.map(val => {
-				return(<div>{val}</div>)
-			})}
+			<div className = {classes.messages}>
+				{messages.map(val => {
+					return(
+					<div>
+						<span style = {{ color:'red' }}>{val}</span>
+					</div>)
+				})}
+			</div>
 		</div>
 	);
 }
