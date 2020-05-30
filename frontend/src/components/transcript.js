@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { TinySegmenter } from './tiny_segmenter'
 import { makeStyles } from '@material-ui/core/styles';
 
@@ -28,8 +28,8 @@ const recognition = new SpeechRecognition();
 recognition.lang = 'ja-JP';					// 日本語対応
 recognition.interimResults = true;  // 発言の途中でも認識結果を得ることができる
 recognition.continuous = true;			// 認識する時間を半永久的に
-recognition.start();								// 認識スタート
 
+	// recognition.start();								// 認識スタート
 const Transcript = (props) => {
 	const [ alertMessage, setAlertMessage ] = useState('')
 	console.log(props)
@@ -40,6 +40,10 @@ function App(props) {
 	
 	const [talk, setTalk] = useState('')
 	const [result, setResult] = useState('')
+	
+	useEffect(() => {
+		recognition.start()
+	}, [])
 
 	const [messages, setMessages, users] = useState([])
 	console.log(props.users)
@@ -74,7 +78,7 @@ function App(props) {
 				console.log('desu desu keisatsu')
 				for(const user of props.users) {
 					console.log(user)
-					if(user.tame){
+					if(!user.tame){
 						setMessages([...messages, `${user.nickname}さんがタメ語で話して欲しいと思っているかも知れません`])
 					}
 				}
@@ -85,7 +89,7 @@ function App(props) {
 		for(let i = 0; i < sakepattern.length; i++) {
 			if (interimTranscript.indexOf(sakepattern[i]) > -1) {
 				for(const user of props.users) {
-					if(user.sake){
+					if(!user.sake){
 						setMessages([...messages, `${user.nickname}さんがお酒煽りを嫌がっているかも知れません`])
 					}
 				}
