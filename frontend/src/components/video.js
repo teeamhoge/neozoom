@@ -1,4 +1,6 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
+
+
 import Transcript from "./transcript"
 import Skyway from './skyway.js'
 
@@ -15,32 +17,45 @@ const Video = (props) => {
 	 *	tame: bool,
 	 * }
 	*/
-	
-	const url = "ws://localhost:8080/ws/neozoom"
 
-	let websocket = new WebSocket(url)
+	const [ users, setUsers ] = useState([])
 
-	websocket.onopen = () =>{
-		websocket.send(JSON.stringify(data))
-	}
 
-	websocket.onmessage = (event) => {
-		const data = JSON.parse(event.data)
+	useEffect(() => {
 
-		switch(data["msg"]){
-			case "newuser":
-				console.log("new user connected", data["user"])
-				break
+		const url = "ws://localhost:8080/ws/neozoom"
 
-			case "roomusers":
-				console.log("already exists", data["users"])
-				break
+		let websocket = new WebSocket(url)
 
-			default:
-				console.log("msg can't understand")
+		websocket.onopen = () =>{
+			websocket.send(JSON.stringify(data))
 		}
 
-	}
+		websocket.onmessage = (event) => {
+			const data = JSON.parse(event.data)
+
+			switch(data["msg"]){
+				case "newuser":
+					setUsers([...users, data["user"]])
+					break
+
+				case "roomusers":
+					if(data["users"] === null){
+						console.log("anyone in this room")
+						break
+					}
+					setUsers(data["users"])
+					break
+
+				default:
+					console.log("msg can't understand")
+			}
+			
+		}
+	}, [])
+	
+
+
 
 	return (
 		<div>
