@@ -11,7 +11,7 @@ import (
 type userData struct {
 	Conn     *websocket.Conn
 	IsConn   bool
-	RoomID   string `json:room_id`
+	RoomID   string `json:"room_id"`
 	Nickname string `json:"nickname"`
 	Tame     bool   `json:"tame"`
 	Sake     bool   `json:"sake"`
@@ -24,6 +24,7 @@ var (
 )
 
 func wsHandler(w http.ResponseWriter, r *http.Request) {
+	fmt.Println("open")
 	conn, err := upgrader.Upgrade(w, r, nil)
 	if err != nil {
 		log.Fatal("connect websocket failed")
@@ -35,15 +36,17 @@ func wsHandler(w http.ResponseWriter, r *http.Request) {
 		data := userData{}
 		err := conn.ReadJSON(&data)
 		if err != nil {
-
 			log.Print("read message failed")
 			break
 		}
+
+		fmt.Println("connected new user ", data.RoomID, data.Nickname)
 
 		//register user to room
 		data.Conn = conn
 		data.IsConn = true
 
+		fmt.Println(data)
 		userChan <- data
 	}
 
@@ -51,9 +54,12 @@ func wsHandler(w http.ResponseWriter, r *http.Request) {
 
 func joinUser() {
 	for {
+		fmt.Println("waiting for new user....")
 		newUser := <-userChan
+		fmt.Println(newUser)
 
 		data := rooms[newUser.RoomID]
+		fmt.Println(data)
 
 		//broadcast new user data to users exists in room
 		for _, usr := range data {
@@ -91,6 +97,10 @@ func main() {
 			return true
 		},
 	}
+
+	userChan = make(chan userData)
+	rooms = make(map[string][]userData)
+	go joinUser()
 
 	http.HandleFunc("/ws/neozoom", wsHandler)
 	fmt.Println("neozoom websocket server starting on port 8080...")
