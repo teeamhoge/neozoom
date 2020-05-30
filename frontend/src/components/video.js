@@ -15,8 +15,32 @@ const Video = (props) => {
 	 *	tame: bool,
 	 * }
 	*/
+	
+	const url = "ws://localhost:8080/ws/neozoom"
 
-	//TODO: connect to websocket server
+	let websocket = new WebSocket(url)
+
+	websocket.onopen = () =>{
+		websocket.send(JSON.stringify(data))
+	}
+
+	websocket.onmessage = (event) => {
+		const data = JSON.parse(event.data)
+
+		switch(data["msg"]){
+			case "newuser":
+				console.log("new user connected", data["user"])
+				break
+
+			case "roomusers":
+				console.log("already exists", data["users"])
+				break
+
+			default:
+				console.log("msg can't understand")
+		}
+
+	}
 
 	return (
 		<div>
