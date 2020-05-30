@@ -16,12 +16,17 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const Header = () => {
+const Header = (props) => {
+
 	const classes = useStyles()
+
+	const handleClick = () => {
+		window.location.href = "/"
+	}
 	return (
 		<AppBar position = 'static'>
 			<Toolbar>
-				<Typography variant="h6" className={classes.title}>
+				<Typography variant="h6" className={classes.title} onClick = {handleClick}>
 					NeoZoom
 				</Typography>
 			</Toolbar>
