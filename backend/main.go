@@ -1,7 +1,6 @@
 package main
 
 import (
-	"fmt"
 	"log"
 	"net/http"
 
@@ -53,5 +52,11 @@ func main() {
 			return true
 		},
 	}
-	fmt.Println("hello")
+
+	http.HandleFunc("/ws/neozoom", wsHandler)
+	err := http.ListenAndServe(":8080", nil)
+	if err != nil {
+		log.Fatal("error starting websocket server : ", err)
+		return
+	}
 }
