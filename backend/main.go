@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"log"
 	"net/http"
 
@@ -9,6 +10,7 @@ import (
 
 type userData struct {
 	Conn     *websocket.Conn
+	IsConn   bool
 	RoomID   string `json:room_id`
 	Nickname string `json:"nickname"`
 	Tame     bool   `json:"tame"`
@@ -18,6 +20,7 @@ type userData struct {
 var (
 	upgrader websocket.Upgrader
 	rooms    map[string][]userData
+	userChan chan userData
 )
 
 func wsHandler(w http.ResponseWriter, r *http.Request) {
@@ -39,10 +42,35 @@ func wsHandler(w http.ResponseWriter, r *http.Request) {
 
 		//register user to room
 		data.Conn = conn
-		rooms[data.RoomID] = append(rooms[data.RoomID], data)
+		data.IsConn = true
 
 	}
 
+}
+
+func joinUser() {
+	for {
+		newUser := <-userChan
+
+		//broadcast new user data to users exists in room
+		for _, usr := range rooms[newUser.RoomID] {
+
+			if !usr.IsConn {
+				continue
+			}
+
+			err := usr.Conn.WriteJSON(newUser)
+
+			if err != nil {
+				log.Print("error occurred while sending new user data to room user")
+				usr.Conn.Close()
+				usr.IsConn = false
+			}
+		}
+
+		//add new user to room, send exists user data to new user
+
+	}
 }
 
 func main() {
@@ -54,6 +82,7 @@ func main() {
 	}
 
 	http.HandleFunc("/ws/neozoom", wsHandler)
+	fmt.Println("neozoom websocket server starting...")
 	err := http.ListenAndServe(":8080", nil)
 	if err != nil {
 		log.Fatal("error starting websocket server : ", err)
