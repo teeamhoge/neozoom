@@ -66,10 +66,22 @@ func joinUser() {
 	for {
 		fmt.Println("waiting for new user....")
 		newUser := <-userChan
-		fmt.Println(newUser)
 
 		data := rooms[newUser.RoomID]
-		fmt.Println(data)
+		fmt.Println("name join requested : ", newUser.Nickname)
+
+		alreadyexist := false
+		for _, usr := range data {
+			if usr.Nickname == newUser.Nickname {
+				alreadyexist = true
+				fmt.Println("same user joind failed!!!!!!!!!!!!!!!!!!!")
+				break
+			}
+		}
+
+		if alreadyexist == true {
+			continue
+		}
 
 		//broadcast new user data to users exists in room
 		for _, usr := range data {
