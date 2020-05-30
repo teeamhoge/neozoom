@@ -17,6 +17,16 @@ type userData struct {
 	Sake     bool   `json:"sake"`
 }
 
+type MsgNewUser struct {
+	User userData `json:"user"`
+	Msg  string   `json:"msg"`
+}
+
+type MsgRoomUsers struct {
+	Users []userData `json:"users"`
+	Msg   string     `json:"msg"`
+}
+
 var (
 	upgrader websocket.Upgrader
 	rooms    map[string][]userData
@@ -68,7 +78,10 @@ func joinUser() {
 				continue
 			}
 
-			err := usr.Conn.WriteJSON(newUser)
+			err := usr.Conn.WriteJSON(MsgNewUser{
+				User: newUser,
+				Msg:  "newuser",
+			})
 
 			if err != nil {
 				log.Print("error occurred while sending new user data to room user")
@@ -79,7 +92,10 @@ func joinUser() {
 
 		//add new user to room, send exists user data to new user
 
-		err := newUser.Conn.WriteJSON(data)
+		err := newUser.Conn.WriteJSON(MsgRoomUsers{
+			Users: data,
+			Msg:   "roomusers",
+		})
 		if err != nil {
 			log.Print("error occured while sending users data in room to new user")
 			continue
