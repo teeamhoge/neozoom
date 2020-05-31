@@ -14,7 +14,7 @@ class Video extends Component {
 
   componentDidMount() {
     const url = "ws://3.112.42.97:8080/ws/neozoom";
-		console.log(url)
+    console.log(url);
     let websocket = new WebSocket(url);
 
     websocket.onopen = () => {
@@ -56,8 +56,12 @@ class Video extends Component {
     return (
       <div style={{ display: "flex" }}>
         <Skyway
-          room_id={this.state.myProfile.room_id}
-          nickname={this.state.myProfile.nickname}
+          room_id={
+            this.state && this.state.myProfile && this.state.myProfile.room_id
+          }
+          nickname={
+            this.state && this.state.myProfile && this.state.myProfile.nickname
+          }
         />
 
         <Transcript users={this.state.users} />
