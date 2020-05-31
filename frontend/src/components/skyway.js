@@ -31,7 +31,7 @@ const Skyway = (props) => {
   const { room_id, nickname } = props;
 
   const [room, setRoom] = useState(null); // どっかのルームに入ってるかどうか
-  const [muted, setMuted] = useState(false);
+  const [muted, setMuted] = useState(true);
   const localVideo = useRef();
   const remoteVideos = useRef();
   const [loaded, setLoaded] = useState(false);
@@ -47,7 +47,7 @@ const Skyway = (props) => {
         video: { width: { max: 400 }, height: { max: 300 } },
       })
       .then((i) => {
-        localVideo.current.muted = true;
+        localVideo.current.muted = false;
         localVideo.current.srcObject = i;
         localVideo.current.playsInline = true;
         localVideo.current.play().catch(console.error);

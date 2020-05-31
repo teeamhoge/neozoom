@@ -94,6 +94,11 @@ const Profile = (props) => {
               color="primary"
             />
           </div>
+          <p>
+            デフォルトでビデオがONになるので
+            <br />
+            気を付けてください★
+          </p>
           <div
             style={{
               display: "flex",
