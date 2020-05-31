@@ -1,77 +1,69 @@
 import React, { Component } from "react";
 
-
-import Transcript from "./transcript"
-import Skyway from './skyway.js'
-
+import Transcript from "./transcript";
+import Skyway from "./skyway.js";
 
 class Video extends Component {
-	constructor(props) {
-		super(props)
-		this.state = {
-			users: [],
-			myProfile: this.props.location.state,
-		}
-	}
+  constructor(props) {
+    super(props);
+    this.state = {
+      users: [],
+      myProfile: this.props.location.state,
+    };
+  }
 
-	componentDidMount(){
+  componentDidMount() {
+    const url = "ws://localhost:8080/ws/neozoom";
 
+    let websocket = new WebSocket(url);
 
-		const url = "ws://localhost:8080/ws/neozoom"
+    websocket.onopen = () => {
+      websocket.send(JSON.stringify(this.state.myProfile));
+    };
 
-		let websocket = new WebSocket(url)
+    websocket.onmessage = (event) => {
+      const msg = JSON.parse(event.data);
+      console.log(msg);
 
-		websocket.onopen = () =>{
-			websocket.send(JSON.stringify(this.state.myProfile))
-		}
+      switch (msg["msg"]) {
+        case "newuser":
+          const newUsrs = [...this.state.users, msg.user];
+          this.setState({
+            users: newUsrs,
+          });
+          break;
 
-		websocket.onmessage = (event) => {
-			const msg = JSON.parse(event.data)
-			console.log(msg)
+        case "roomusers":
+          if (msg.users === null) {
+            break;
+          }
+          this.setState({
+            users: msg.users,
+          });
 
-			switch(msg["msg"]){
-				case "newuser":
-					const newUsrs = [ ...this.state.users, msg.user ]
-					this.setState({
-						users: newUsrs
-					})
-					break;
-				
-				case "roomusers":
-					if( msg.users === null ){
-						break
-					}
-					this.setState({
-						users: msg.users
-					})
+          break;
 
-					break
+        default:
+          console.log("msg can't understand", event);
+          break;
+      }
+    };
+  }
 
+  render() {
+    console.log(this.state.myProfile);
+    console.log(this.state.users);
+    return (
+      <div style={{ position: "relative" }}>
+        <Skyway
+          room_id={this.state.myProfile.room_id}
+          nickname={this.state.myProfile.nickname}
+        />
 
-				default:
-					console.log("msg can't understand", event)
-					break;
-			}
-
-		}
-
-	}
-
-
-	render(){
-		console.log(this.state.myProfile)
-		console.log(this.state.users)
-		return(
-			<div>
-
-				<Skyway room_id = {this.state.myProfile.room_id} nickname = {this.state.myProfile.nickname} />
-
-				<Transcript users = {this.state.users} />
-			</div>
-		)
-	}
+        <Transcript users={this.state.users} />
+      </div>
+    );
+  }
 }
-
-
 
 export default Video;
