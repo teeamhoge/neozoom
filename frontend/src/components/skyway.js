@@ -163,7 +163,6 @@ const Skyway = (props) => {
       {room && <h3>{room.name} で会話中</h3>}
       <div className="container">
         <div className="room">
-          自分
           <div
             style={{
               display: "flex",
@@ -247,7 +246,7 @@ const styles = {
     position: "fixed",
     bottom: 0,
     left: 0,
-    width: "70vw",
+    width: "100vw",
     height: "60px",
     backgroundColor: "#111",
     display: "flex",

@@ -54,7 +54,7 @@ class Video extends Component {
     console.log(this.state.myProfile);
     console.log(this.state.users);
     return (
-      <div style={{ position: "relative" }}>
+      <div style={{ display: "flex" }}>
         <Skyway
           room_id={this.state.myProfile.room_id}
           nickname={this.state.myProfile.nickname}

@@ -11,12 +11,13 @@ const useStyles = makeStyles((theme) => ({
 
   app: {
     backgroundColor: "#ededed",
-
-    position: "fixed",
-    width: theme.spacing(48),
-    height: "100%",
-    right: 0,
-    top: 0,
+    marginBottom: "70px",
+    width: "30vw",
+    // position: "fixed",
+    // width: theme.spacing(48),
+    height: "100vh",
+    // right: 0,
+    // top: 0,
   },
 }));
 
@@ -38,7 +39,7 @@ function Transcript(props) {
     recognition.start();
   }, []);
 
-  const [messages, setMessages, users] = useState([]);
+  const [messages, setMessages] = useState([]);
 
   const classes = useStyles();
 
@@ -100,7 +101,7 @@ function Transcript(props) {
         {messages.map((val) => {
           return (
             <div>
-              <span style={{ color: "red" }}>asdasds{val}</span>
+              <span style={{ color: "red" }}>{val}</span>
             </div>
           );
         })}
