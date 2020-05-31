@@ -9,22 +9,22 @@ const peer = new Peer({
 
 peer.on("error", (e) => console.error(e));
 let a;
-const useStyles = makeStyles((theme) => ({
-  root: {
-    "& > *": {
-      margin: theme.spacing(1),
-    },
-  },
+// const useStyles = makeStyles((theme) => ({
+//   root: {
+//     "& > *": {
+//       margin: theme.spacing(1),
+//     },
+//   },
 
-  app: {
-    // 'backgroundColor' : "#ededed",
-    // backgroundColor: 'green',
+//   app: {
+//     // 'backgroundColor' : "#ededed",
+//     // backgroundColor: 'green',
 
-    position: "fixed",
-    width: theme.spacing(200),
-    height: "100%",
-  },
-}));
+//     position: "fixed",
+//     width: theme.spacing(200),
+//     height: "100%",
+//   },
+// }));
 
 const Skyway = (props) => {
   const { room_id, nickname } = props;
@@ -35,7 +35,7 @@ const Skyway = (props) => {
   const remoteVideos = useRef();
   const [loaded, setLoaded] = useState(false);
   const history = useHistory();
-  const classes = useStyles();
+  // const classes = useStyles();
 
   useEffect(() => createStream(), []); //eslint-disable-line
 
