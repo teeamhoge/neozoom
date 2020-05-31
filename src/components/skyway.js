@@ -12,6 +12,7 @@ let a;
 
 const Skyway = (props) => {
   const { room_id, nickname } = props;
+
   const [room, setRoom] = useState(null); // どっかのルームに入ってるかどうか
   const [muted, setMuted] = useState(false);
   const localVideo = useRef();
@@ -32,10 +33,14 @@ const Skyway = (props) => {
         localVideo.current.srcObject = i;
         localVideo.current.playsInline = true;
         localVideo.current.play().catch(console.error);
-        enterRoom(i);
+        if (room_id) enterRoom(i);
       })
       .catch(console.error);
   };
+
+  if (!room_id) {
+    return <div>共有リンクからはいってね！</div>;
+  }
 
   const enterRoom = async (localStream) => {
     if (peer.open && room) clearTimeout(a);
