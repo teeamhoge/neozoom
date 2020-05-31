@@ -138,25 +138,10 @@ const Skyway = (props) => {
         backgroundColor: "#333",
       }}
     >
-      {room && <h2>{room.name} で会話中～</h2>}
+      {room && <h3>{room.name} で会話中</h3>}
       <div className="container">
         <div className="room">
           自分
-          <div>
-            {room && (
-              <>
-                <label htmlFor="muted">mute</label>
-                <input
-                  type="checkbox"
-                  name="muted"
-                  value={muted}
-                  onChange={handleMute}
-                  disabled={!room}
-                />
-              </>
-            )}
-          </div>
-          <div>{room && <button onClick={handleLeave}>Leave</button>}</div>
           <div
             style={{
               display: "flex",
@@ -176,6 +161,7 @@ const Skyway = (props) => {
                   // height: "100px",
                   width: "30vw",
                   padding: "1em",
+                  position: "relative",
                 }}
               >
                 <video
@@ -187,7 +173,22 @@ const Skyway = (props) => {
                     objectFit: "contain",
                   }}
                 ></video>
-                <div>自分だよ～</div>
+                {muted && (
+                  <p
+                    style={{
+                      position: "absolute",
+                      bottom: "1em",
+                      right: "1em",
+                      backgroundColor: "grey",
+                      color: "white",
+                      margin: 0,
+                      padding: "5px",
+                    }}
+                  >
+                    muted
+                  </p>
+                )}
+                <div style={styles.myName}>{nickname}</div>
               </div>
             </div>
           </div>
@@ -242,5 +243,14 @@ const styles = {
     width: "2em",
     textAlign: "center",
     cursor: "pointer",
+  },
+  myName: {
+    position: "absolute",
+    bottom: "1em",
+    left: "1em",
+    backgroundColor: "grey",
+    color: "white",
+    margin: 0,
+    padding: "5px",
   },
 };
