@@ -1,7 +1,8 @@
 import React, { useEffect, useRef, useState, makeStyles } from "react";
 import Peer from "skyway-js";
 import { CallEnd, MicOff, Mic } from "@material-ui/icons";
-import { useHistory } from "react-router-dom";
+import { useHistory, Redirect } from "react-router-dom";
+import { Button } from "@material-ui/core";
 
 const peer = new Peer({
   key: "20f9e00a-7027-405e-9e2b-865f62c65268",
@@ -56,7 +57,15 @@ const Skyway = (props) => {
   };
 
   if (!room_id) {
-    return <div>共有リンクからはいってね！</div>;
+    console.log("no room id");
+    return (
+      <div>
+        有効なリンクではありませんでした
+        <Button variant="contained" onCLick={() => history.push("/")}>
+          TOPに戻る
+        </Button>
+      </div>
+    );
   }
 
   const enterRoom = async (localStream) => {
@@ -87,7 +96,7 @@ const Skyway = (props) => {
     room.close();
     console.log("I left");
     setRoom(null);
-    history.push("/");
+    // history.push("/");
   };
 
   const handleMute = () => {
@@ -147,6 +156,7 @@ const Skyway = (props) => {
       Array.from(remoteVideos.current.children).forEach((remoteVideo) => {
         remoteVideo.remove();
       });
+      history.push("/");
     });
   }
 
