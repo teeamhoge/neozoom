@@ -13,8 +13,8 @@ class Video extends Component {
   }
 
   componentDidMount() {
-    const url = "ws://localhost:8080/ws/neozoom";
-
+    const url = "ws://3.112.42.97:8080/ws/neozoom";
+		console.log(url)
     let websocket = new WebSocket(url);
 
     websocket.onopen = () => {
