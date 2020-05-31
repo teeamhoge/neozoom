@@ -47,7 +47,7 @@ function Transcript(props) {
 
   let finalTranscript = "";
   let tamepattern = ["です", "ます"];
-  let sakepattern = ["飲め", "飲みな", "飲ま"];
+  let sakepattern = ["飲め", "飲みな", "飲ま", "飲み", "酒飲", "酒飲み"];
 
   recognition.onresult = (event) => {
     let interimTranscript = "";
@@ -80,14 +80,16 @@ function Transcript(props) {
     //Check Sake
     for (let i = 0; i < sakepattern.length; i++) {
       if (interimTranscript.indexOf(sakepattern[i]) > -1) {
+			
         for (const user of props.users) {
           if (!user.sake) {
-            setMessages([
-              ...messages,
-              `${user.nickname}さんがお酒煽りを嫌がっているかも知れません`,
-            ]);
+						setMessages([
+							...messages,
+							`${user.nickname}さんがお酒煽りを嫌がっているかも知れません`,
+						]);
+
           }
-        }
+         }
       }
     }
   };
@@ -95,13 +97,13 @@ function Transcript(props) {
   return (
     <div className={classes.app}>
       <div id="result-div">
-        {result} <span style={{ color: "#ddd" }}>{talk}</span>
+				<span style={{fontSize: "48px"}}>{result}</span> <span style={{ color: "#999", fontSize:"48px" }}>{talk}</span>
       </div>
       <div className={classes.messages}>
         {messages.map((val) => {
           return (
             <div>
-              <span style={{ color: "red" }}>{val}</span>
+							<span style={{ color: "red", fontSize: "32" }}>{val}</span>
             </div>
           );
         })}
